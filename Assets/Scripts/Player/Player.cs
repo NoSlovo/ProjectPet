@@ -5,6 +5,7 @@
 public class Player : MonoBehaviour
 {
     [SerializeField] private ButtonHandler _buttonHandler;
+    
     private CharacterController _character;
     private AnimatorPlayer _animatorPlayer;
     private float _spead = 0.05f;
@@ -29,5 +30,10 @@ public class Player : MonoBehaviour
         transform.forward = _characterDirection;
         _character.Move(_characterDirection * _spead);
         _animatorPlayer.PlayMove();
+    }
+
+    public void Atack()
+    {
+        _animatorPlayer.Attack();
     }
 }
