@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(AnimatorPlayer))]
+[RequireComponent(typeof(СharacterAnimator))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private ButtonHandler _buttonHandler;
     
     private CharacterController _character;
-    private AnimatorPlayer _animatorPlayer;
+    private СharacterAnimator _сharacterAnimator;
     private float _spead = 0.05f;
 
     private void Start()
     {
         _character = GetComponent<CharacterController>();
-        _animatorPlayer = GetComponent<AnimatorPlayer>();
+        _сharacterAnimator = GetComponent<СharacterAnimator>();
     }
 
     private void Update() => Move(_buttonHandler.Direction);
@@ -22,18 +22,18 @@ public class Player : MonoBehaviour
     {
         if (direction == Vector2.zero)
         {
-            _animatorPlayer.StopMove();
+            _сharacterAnimator.StopMove();
             return;
         }
 
         var _characterDirection = new Vector3(direction.x, 0, direction.y);
         transform.forward = _characterDirection;
         _character.Move(_characterDirection * _spead);
-        _animatorPlayer.PlayMove();
+        _сharacterAnimator.PlayMove();
     }
 
     public void Atack()
     {
-        _animatorPlayer.Attack();
+        _сharacterAnimator.Attack();
     }
 }
