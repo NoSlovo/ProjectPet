@@ -10,12 +10,14 @@ public class СharacterAnimator : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private readonly int _iMove = Animator.StringToHash("IMove");
+    private readonly int _speed = Animator.StringToHash("Speed");
     private static readonly int _attackOne = Animator.StringToHash("Attack1");
     private static readonly int _attackTwo = Animator.StringToHash("Attack2");
 
     private Stopwatch _lastCallTime = new ();
 
     private float _delay = 3000f;
+    private float _defaultValue = 0;
 
     private List<int> _attackHash = new ()
     {
@@ -32,8 +34,18 @@ public class СharacterAnimator : MonoBehaviour
         _lastCallTime.Start();
     }
 
-    public void PlayMove() => _animator.SetBool(_iMove, true);
-    public void StopMove() => _animator.SetBool(_iMove, false);
+    public void PlayMove(float velocity )
+    {
+        
+        _animator.SetFloat(_speed,velocity);
+        _animator.SetBool(_iMove, true);
+    }
+
+    public void StopMove()
+    {
+        _animator.SetBool(_iMove, false);
+        _animator.SetFloat(_speed,_defaultValue);
+    }
 
     public void Attack()
     {

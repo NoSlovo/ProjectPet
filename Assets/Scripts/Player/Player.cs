@@ -1,14 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using RaceStats.RaceType;
+using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(СharacterAnimator))]
+[RequireComponent(typeof(CharacterController),(typeof(СharacterAnimator)))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private ButtonHandler _buttonHandler;
     
     private CharacterController _character;
     private СharacterAnimator _сharacterAnimator;
-    private float _spead = 0.05f;
+    private CharacterStats _characterStats;
+    private float _velocity;
+    
+    public Stats Stats { get; private set; }
+
+    private void Awake()
+    {
+        _characterStats = new CharacterStats(this, RaceType.Wars);
+    }
 
     private void Start()
     {
@@ -27,13 +36,19 @@ public class Player : MonoBehaviour
         }
 
         var _characterDirection = new Vector3(direction.x, 0, direction.y);
+        _velocity = new Vector2(direction.x,direction.y).magnitude * Stats.Spead;
         transform.forward = _characterDirection;
-        _character.Move(_characterDirection * _spead);
-        _сharacterAnimator.PlayMove();
+        _character.Move(_characterDirection * (Stats.Spead * Time.deltaTime));
+        _сharacterAnimator.PlayMove(_velocity);
     }
 
     public void Atack()
     {
         _сharacterAnimator.Attack();
+    }
+
+    public void GetStats(Stats characterStats)
+    {
+        Stats = characterStats;
     }
 }
